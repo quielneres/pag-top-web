@@ -1,10 +1,10 @@
 import Layout, { siteTitle } from '../components/layout'
 
-export default function Home() {
+export default function Vantagens() {
     return (
         <Layout >
             <section>
-                <h2 >Pagina em construção!</h2>
+                <h2 >Pagina vantegens em construção!</h2>
             </section>
         </Layout>
     )
