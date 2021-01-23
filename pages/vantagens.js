@@ -1,11 +1,10 @@
-import Layout, { siteTitle } from '../components/layout'
+import React from "react";
+import Layout from '../components/Layout'
 
 export default function Vantagens() {
     return (
-        <Layout >
-            <section>
-                <h2 >Pagina vantegens em construção!</h2>
-            </section>
+        <Layout>
+            Vantagens
         </Layout>
     )
 }

@@ -1,5 +1,5 @@
 import Navbar from '../components/Navbar'
-import Layout from "../components/layout";
+import Layout from "../components/Layout";
 import Head from "next/head";
 import Link from "next/link";
 import utilStyles from "../styles/utils.module.css";

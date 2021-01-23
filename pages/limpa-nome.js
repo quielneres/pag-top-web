@@ -1,4 +1,4 @@
-import Layout, { siteTitle } from '../components/layout'
+import Layout from '../components/Layout'
 
 export default function LimpaNome() {
     return (

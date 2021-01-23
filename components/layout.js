@@ -1,118 +1,144 @@
+import React, {Component} from "react";
+import ReactDOM from "react-dom";
+import ReactFullpage from "@fullpage/react-fullpage";
 import Head from 'next/head'
-import styles from './layout.module.css'
-import utilStyles from '../styles/utils.module.css'
-import Link from 'next/link'
 import Navbar from './Navbar'
 
-const name = 'Ezequiell'
-export const siteTitle = 'Next.js Sample Website'
+// import 'fullpage.js/vendors/scrolloverflow'; // Optional. When using scrollOverflow:true
 
-export default function Layout({children, home}) {
-    return (
-        <div >
-            <Head>
-                <link rel="icon" href="/favicon.ico"/>
-                <meta
-                    name="description"
-                    content="Learn how to build a personal website using Next.js"
-                />
-                <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
-                      integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p"
-                      crossOrigin="anonymous"/>
-                <link rel="preconnect" href="https://fonts.gstatic.com"/>
-                <link href="https://fonts.googleapis.com/css2?family=PT+Sans:wght@700&display=swap" rel="stylesheet"/>
-                <meta
-                    property="og:image"
-                    content={`https://og-image.now.sh/${encodeURI(
-                        siteTitle
-                    )}.png?theme=light&md=0&fontSize=75px&images=https%3A%2F%2Fassets.vercel.com%2Fimage%2Fupload%2Ffront%2Fassets%2Fdesign%2Fnextjs-black-logo.svg`}
-                />
-                <meta name="og:title" content={siteTitle}/>
-                <meta name="twitter:card" content="summary_large_image"/>
-            </Head>
-            <Navbar/>
-            {/*<header className={styles.header}>*/}
-            {/*    {home ? (*/}
-            {/*        <>*/}
-            {/*            <img*/}
-            {/*                src="/images/profile.jpg"*/}
-            {/*                className={`${styles.headerHomeImage} ${utilStyles.borderCircle}`}*/}
-            {/*                alt={name}*/}
-            {/*            />*/}
-            {/*            <h1 className={utilStyles.heading2Xl}>{name}</h1>*/}
-            {/*        </>*/}
-            {/*    ) : (*/}
-            {/*        <>*/}
-            {/*            <Link href="/">*/}
-            {/*                <a>*/}
-            {/*                    <img*/}
-            {/*                        src="/images/profile.jpg"*/}
-            {/*                        className={`${styles.headerImage} ${utilStyles.borderCircle}`}*/}
-            {/*                        alt={name}*/}
-            {/*                    />*/}
-            {/*                </a>*/}
-            {/*            </Link>*/}
-            {/*            <h2 className={utilStyles.headingLg}>*/}
-            {/*                <Link href="/">*/}
-            {/*                    <a className={utilStyles.colorInherit}>{name}</a>*/}
-            {/*                </Link>*/}
-            {/*            </h2>*/}
-            {/*        </>*/}
-            {/*    )}*/}
-            {/*</header>*/}
-            <main className={styles.classMain}>{children}</main>
-            {/*{!home && (*/}
-            {/*    <div className={styles.backToHome}>*/}
-            {/*        <Link href="/">*/}
-            {/*            <a>← Back to home</a>*/}
-            {/*        </Link>*/}
-            {/*    </div>*/}
-            {/*)}*/}
-            <footer>
-                <a
-                    href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    <img src="/images/logo.png" alt="Vercel Logo" className="logo"/>
-                </a>
-            </footer>
-            <style jsx>{`
-                  footer {
-                      width: 100%;
-                      height: 100px;
-                      border-top: 1px solid #eaeaea;
-                      display: flex;
-                      justify-content: center;
-                      align-items: center;
-                    }
+const originalColors = ['#ff5f45', '#0798ec', '#fc6c7c', '#435b71', 'orange', 'blue', 'purple', 'yellow'];
 
-                    footer img {
-                      margin-left: 0.5rem;
-                    }
+class Layout extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            sectionsColor: [...originalColors],
+            fullpages: [
+                {
+                    text: "Section 1asda"
+                },
+                {
+                    text: "Section 2"
+                },
+                {
+                    text: 'Section 3',
+                }
+            ]
+        };
+    }
 
-                    footer a {
-                      display: flex;
-                      justify-content: center;
-                      align-items: center;
-                    }
-                    
-                    .logo {
-                      width: 6em;
-                    }
-                    
-                     a {
-                      color: inherit;
-                      text-decoration: none;
-                    }
+    // onLeave(origin, destination, direction) {
+    //     console.log("onLeave", { origin, destination, direction });
+    //     // arguments are mapped in order of fullpage.js callback arguments do something
+    //     // with the event
+    // }
 
-                    @media (max-width: 600px) {
-                      .grid {
-                        width: 100%;
-                        flex-direction: column;
-                      }
+    handleChangeColors() {
+        const newColors =
+            this.state.sectionsColor[0] === "yellow"
+                ? [...originalColors]
+                : ["yellow", "blue", "white"];
+        this.setState({
+            sectionsColor: newColors
+        });
+    }
+
+    handleAddSection() {
+        this.setState(state => {
+            const { fullpages } = state;
+            const { length } = fullpages;
+            fullpages.push({
+                text: `section ${length + 1}`,
+                id: Math.random()
+            });
+
+            return {
+                // fullpages: [...fullpages]
+            };
+        });
+    }
+
+    handleRemoveSection() {
+        this.setState(state => {
+            const { fullpages } = state;
+            const newPages = [...fullpages];
+            newPages.pop();
+
+            return { fullpages: newPages };
+        });
+    }
+
+    moveSectionDown(){
+        fullpage_api.moveSectionDown();
+    }
+
+    render() {
+        const { fullpages } = this.state;
+
+        if (!fullpages.length) {
+            return null;
+        }
+
+        const Menu = () => (
+            <div
+                className="menu"
+                style={{
+                    position: "fixed",
+                    top: 0,
+                    width: '100%',
+                    zIndex: 100
+                }}
+            >
+                <style jsx>{ `
+                    .actions{
+                        list-style-type: none;
                     }
-                  `}</style>
-        </div>
-    )
+                    .actions button{
+                        padding: .93em 1.87em;
+                        background: #35495e;
+                        border-radius: 5px;
+                        border: 0;
+                        color: #fff;
+                        margin: 7px;
+                        font-size: 15px;
+                        cursor: pointer;
+                    }
+                    .actions button:hover{
+                        background: #fff;
+                        color: #35495e;
+                    }
+                 ` }</style>
+
+                <Navbar />
+                <ul className="actions">
+                    <li>
+                        <button onClick={() => this.handleAddSection()}>Add Section</button>
+                        <button onClick={() => this.handleRemoveSection()}>
+                            Remove Section
+                        </button>
+                        <button onClick={() => this.handleChangeColors()}>
+                            Change background colors
+                        </button>
+                        <button onClick={() => this.moveSectionDown()}>
+                            Move Section Down
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        );
+
+        return (
+            <div className="App">
+                <Head>
+                    <title>Pag Toop</title>
+                    <link href="/styles/styles.css" rel="stylesheet" />
+                </Head>
+                <Menu />
+                { this.props.children}
+            </div>
+        );
+    }
 }
+
+export default Layout;
+

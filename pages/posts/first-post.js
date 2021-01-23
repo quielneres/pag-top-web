@@ -1,10 +1,10 @@
 import Head from 'next/head'
 import Link from 'next/link'
-import Layout from '../../components/layout'
+import LayoutBkp from '../../components/layoutbkp.js'
 
 export default function FirstPost() {
     return (
-        <Layout>
+        <LayoutBkp>
             <Head>
                 <title>First Post</title>
             </Head>
@@ -14,6 +14,6 @@ export default function FirstPost() {
                     <a>Back to home</a>
                 </Link>
             </h2>
-        </Layout>
+        </LayoutBkp>
     )
 }
